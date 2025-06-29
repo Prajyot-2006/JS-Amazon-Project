@@ -1,6 +1,7 @@
 /* in this file we learned about .toFixed(): It makes a number show only a certain number of digits after the decimal point.  (refer line no 67)
 also learned about data attribute in html (refer line no 92)  (data atrribute starts from data only)
 */
+
 /*
 const products = [{  // make sure all obj values have the ame property bcoz the product has similar property
     image: 'images/products/athletic-cotton-socks-6-pairs.jpg',
@@ -41,6 +42,9 @@ const products = [{  // make sure all obj values have the ame property bcoz the 
 
 // now that we save the data , now we have to use this data to generate the html , instead of writing the html manually
 
+import {cart , addToCart} from '../data/02-cart.js';  // we have to put all of our imports at the top of the files 
+import {products} from '../data/01-products.js'
+// const cart = []; this agian create a naming conflict 
 let productsHTML = '';
 
 products.forEach( (product)=> {  // so the way that foreach works , its that it takes each object saves it in this parameter called product and runs the function
@@ -98,36 +102,24 @@ console.log(productsHTML);
 
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
-document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
-    button.addEventListener('click' , ()=>{   // add to cart's 1st button , and so on 
-        // console.log(button.dataset);
-        // console.log(button.dataset.productName);  why n is capital ? coz check in console , object is created in the console not here in the code (thsi is the propery of data attribute , i guess)
-        const productId = button.dataset.productId;   // used data attribute to get the product name
 
-        let matchingItem;
-        cart.forEach((item) => {
-            if(productId === item.productId){  //note the produc.id is converted into productId in console (this is converted from kebab case to upperCase)
-                matchingItem = item;
-            }
-        });
-
-        if(matchingItem){  // if matching item is defined that means it is truthy value then only 
-            matchingItem.quantity++;
-        }
-        else{
-            cart.push( {
-            productId: productId,
-            quantity: 1
-        });
-        }
-
-        let cartQuantity = 0;
-        cart.forEach((item) => {
-            cartQuantity = cartQuantity + item.quantity;
+function updatecartQuantity(){
+    let cartQuantity = 0;
+        cart.forEach((cartItem) => {
+            cartQuantity = cartQuantity + cartItem.quantity;
         });
 
         document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
         console.log(cartQuantity);
         console.log(cart); 
+}
+
+document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
+    button.addEventListener('click' , ()=>{   // add to cart's 1st button , and so on 
+        // console.log(button.dataset);
+        // console.log(button.dataset.productName);  why n is capital ? coz check in console , object is created in the console not here in the code (thsi is the propery of data attribute , i guess)
+        const productId = button.dataset.productId;   // used data attribute to get the product name
+        addToCart(productId);
+        updatecartQuantity();
     });
 } );

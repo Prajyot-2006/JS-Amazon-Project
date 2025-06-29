@@ -1,3 +1,10 @@
+<!--
+Modules : Get a variable out of a file :  
+1. Add type = "module" attribute
+2. Export
+3. Import
+-->
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -43,7 +50,7 @@
           <span class="orders-text">& Orders</span>
         </a>
 
-        <a class="cart-link header-link" href="checkout.html">
+        <a class="cart-link header-link" href="checkout.html">   <!--when we click on this cart option we will go into this checkout.html page-->
           <img class="cart-icon" src="images/icons/cart-icon.png">
           <div class="cart-quantity js-cart-quantity">0</div>
           <div class="cart-text">Cart</div>
@@ -57,8 +64,7 @@
     </div>
   </body>
 
-  <script src="data/02-cart.js"></script>
-  <script src="data/01-products.js"></script>  <!--NOTE : make sure to load this first-->
-  <script src="script/01-amazon.js"></script>
-
+<!--  <script src="data/02-cart.js"></script>  instead of this we used modules-->
+<!--  <script src="data/01-products.js"></script>  NOTE : make sure to load this first--> 
+  <script type="module" src="script/01-amazon.js"></script>
 </html>
