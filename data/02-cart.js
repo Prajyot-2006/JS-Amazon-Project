@@ -23,7 +23,7 @@ function saveToStorage(){
 export function addToCart(productId){
         let matchingItem;
         cart.forEach((cartItem) => {
-            if(productId === cartItem.productId){  //note the produc.id is converted into productId in console (this is converted from kebab case to upperCase)
+            if(productId === cartItem.productId){  //note the product.id is converted into productId in console (this is converted from kebab case to upperCase)
                 matchingItem = cartItem;
             }
         });
