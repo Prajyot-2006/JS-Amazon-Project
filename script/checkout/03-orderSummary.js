@@ -3,8 +3,9 @@ import {products , getProduct} from '../../data/01-products.js';
 import {hello} from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 import {deliveryOptions , getDeliveryOption} from '../../data/03-deliveryOptions.js';
+import { renderpaymentSummary } from './04-paymentSummary.js';
 
-// we learned about external libraries in JS , here the hello and dayjs are external libraries which we can use in this code if we link them (script src="") 
+/* we learned about external libraries in JS , here the hello and dayjs are external libraries which we can use in this code if we link them (script src="") 
 // dayjs is a external lib that has another methods like (format() ) and properties like (.add) , 
 hello();
 const today = dayjs(); 
@@ -13,7 +14,7 @@ const deliveryDate = today.add(7 , 'day');  // add method takes 2 parameter 1)st
 // console.log(deliveryDate);
 // deliveryDate.format('dddd , MMMM D') // so this method takes the date and convert it into a stcing in this format 4d is used to display the days of week , to shown the month we can type 4M , to show the day of the month into the string we can type D (this method takes the date and converts it into a string with this format)
 console.log(deliveryDate.format('dddd , MMMM D'))
-
+*/
 export function renderOrderSummary(){
 
 let cartSummaryHTML = "";
@@ -131,6 +132,8 @@ document.querySelectorAll('.js-delete-link').forEach((link) => {
         const container = document.querySelector(`.js-cart-item-container-${productId}`);
         // console.log(container);
         container.remove()
+
+        renderpaymentSummary();
     }); 
 })
 
@@ -141,6 +144,7 @@ document.querySelectorAll('.js-delivery-option').forEach((element) => {
 
     updateDeliveryOption(productId, deliveryOptionId);
     renderOrderSummary();
+    renderpaymentSummary();
   });
 });
 
