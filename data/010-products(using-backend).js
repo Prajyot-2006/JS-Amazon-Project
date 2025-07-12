@@ -1,6 +1,3 @@
-
-// we learned about inheritence in this file , we used inheritence in class , for seperating clothing products 
-// just rename this file to 01-products(using inheritence).js
 export function getProduct(productId){
   let matchingProduct;
 
@@ -11,7 +8,7 @@ export function getProduct(productId){
     });
     return matchingProduct;
 }
-
+// we gonna use the class to generate the objecs 
 class Product {
   id;
   image;
@@ -35,70 +32,10 @@ class Product {
     return `$${(this.priceCents /100).toFixed(2)}`;
   }
 
-  extraInfoHtml() {
-    return "";
-  }
-
 }
+
 
 /*
-class Clothing extends Product { // clothing will get all the properties and method of Product class , Product is a parent class and Clothing is a child class , Clothing will inherit all the properties of Product class
-// even we cant see the properties or method now ,but it inherited all properties and methods of its parent class ,even constructor also 
-}
-const tshirt = new Clothing({
-    id: "83d4ca15-0f35-48f5-b7a3-1ea210004f2e",
-    image: "images/products/adults-plain-cotton-tshirt-2-pack-teal.jpg",
-    name: "Adults Plain Cotton T-Shirt - 2 Pack",
-    rating: {
-      stars: 4.5,
-      count: 56
-    },
-    priceCents: 799,
-    type: "clothing",
-    sizeChartLink: "images/clothing-size-chart.png"
-  })
-console.log(tshirt);
-console.log(tshirt.getPrice());
-*/
-
-class Clothing extends Product { // clothing will get all the properties and method of Product class , Product is a parent class and Clothing is a child class , Clothing will inherit all the properties of Product class
-    sizeChartLink;
-
-    constructor(productDetails) { // if u are adding constructor in child class , then the default constructor(which is parent's constructor) is gone(in child class) , u must call it to use
-        super(productDetails);  // call parent first then update what u want 
-        this.sizeChartLink = productDetails.sizeChartLink;
-    } // Note : if u dont use constructor in child class then , it automatically uses parents constructor , and if u want to update child class's constructor by adding some other properties then take a note : first call ur parent constructor by using super() method and then update the child constructor bcoz default construictor is gone(in child class) when u try to update constructor in child class
-
-    extraInfoHtml() {// as we know clothing extends the Product class and Product class also has extraInfroHTML method , so at here we are just Overriding/replacing the parent's method This technique is called Method Overriding
-      return `  
-        <a href= "${this.sizeChartLink}" target= "_blank">  
-        Size Chart  
-        </a>
-      `  // target ="_blank" means open in new tab will enable in that link
-    } // Note : one more thing to know about Method Overriding is that if we really need access to the parent's method . There is a feature that we can use called super(), so super() gives access to the parent class , so if 
-// so if we want to call the method(extraInfoHTML) we can do super.extraInfoHTMl();
-}
-/*
-Extra Note : we use super() to call parents constructor and we use super.method() to call method of parent class for eg : super.extraInfoHTML();
-*/
-
-/*  just for understanding , practice 
-const tshirt = new Clothing({
-    id: "83d4ca15-0f35-48f5-b7a3-1ea210004f2e",
-    image: "images/products/adults-plain-cotton-tshirt-2-pack-teal.jpg",
-    name: "Adults Plain Cotton T-Shirt - 2 Pack",
-    rating: {
-      stars: 4.5,
-      count: 56
-    },
-    priceCents: 799,
-    type: "clothing",
-    sizeChartLink: "images/clothing-size-chart.png"
-  })
-console.log(tshirt);
-console.log(tshirt.getPrice());
-*/
-
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -751,7 +688,6 @@ export const products = [
       count: 3157
     },
     priceCents: 2400,
-    type: "clothing",
     keywords: [
       "sweaters",
       "hoodies",
@@ -759,15 +695,42 @@ export const products = [
       "mens"
     ]
   }
-].map((productDetails) => {  
-    if(productDetails.type === 'clothing'){
-        const a = new Clothing(productDetails);
-        return a;
-    }
-    else{
-        const b = new Product(productDetails);
-        return b
-    }
-});
-//console.log(products); 
+].map((productDetails) => { 
+  const a = new Product(productDetails);  
+  return a 
+});  
+console.log(products); 
+*/
 
+/*
+function loadProducts() {
+    const xhr = new XMLHttpRequest();
+
+    xhr.addEventListener('load', () => {
+        products = JSON.parse(xhr.response)
+    })
+}
+*/
+
+export function loadProducts(fun) {
+    const xhr = new XMLHttpRequest();
+
+    xhr.addEventListener('load', () => {
+        products = JSON.parse(xhr.response).map((productDetails) => {
+            if(productDetails.type === 'clothing'){
+                const a = new Clothing(productDetails);
+                return a;
+            }
+            else{
+                const b = new Product(productDetails);
+                return b;
+            }
+        });
+        console.log(products);
+        fun();
+    });
+    xhr.open('GET', 'https://supersimplebackend.dev/products');
+    xhr.send();
+}
+
+loadProducts();
